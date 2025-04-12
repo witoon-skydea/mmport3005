@@ -1,0 +1,56 @@
+/* Base styles for the application */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #5cb85c;
+  --background-color: #f8f9fa;
+  --text-color: #333;
+  --header-height: 60px;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  flex: 1;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.port-display {
+  font-size: 4rem;
+  text-align: center;
+  margin: 50px 0;
+  color: var(--primary-color);
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: auto;
+}
