@@ -1,0 +1,107 @@
+<%- include('../partials/header') %>
+
+<div class="page-header d-flex justify-between align-center mb-4">
+  <h1>ทริปของฉัน</h1>
+  <a href="<%= baseUrl %>trips/new" class="btn btn-primary">
+    <i class="fas fa-plus"></i> สร้างทริปใหม่
+  </a>
+</div>
+
+<% if (userTrips.length === 0 && sharedTrips.length === 0) { %>
+  <div class="empty-state card">
+    <div class="card-body text-center p-4">
+      <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+        <i class="fas fa-route"></i>
+      </div>
+      <h3>ยังไม่มีทริปท่องเที่ยว</h3>
+      <p>คุณยังไม่มีทริปท่องเที่ยวในระบบ มาเริ่มวางแผนทริปแรกของคุณกันเถอะ!</p>
+      <a href="<%= baseUrl %>trips/new" class="btn btn-primary mt-3">
+        สร้างทริปท่องเที่ยวแรกของคุณ
+      </a>
+    </div>
+  </div>
+<% } else { %>
+  <% if (userTrips.length > 0) { %>
+    <h2 class="mb-3">ทริปที่ฉันสร้าง</h2>
+    
+    <div class="row">
+      <% userTrips.forEach(function(trip) { %>
+        <div class="col-4 mb-4">
+          <div class="card trip-card">
+            <div class="trip-card-header">
+              <img src="<%= baseUrl %>images/trip-placeholder.jpg" alt="<%= trip.title %>">
+            </div>
+            <div class="trip-card-body card-body">
+              <h3 class="trip-title"><%= trip.title %></h3>
+              
+              <div class="trip-meta">
+                <span><i class="fas fa-calendar-alt"></i> <%= trip.days %> วัน</span>
+                <% if (trip.start_date) { %>
+                  <span><i class="fas fa-clock"></i> <%= moment(trip.start_date).format('D MMM YYYY') %></span>
+                <% } %>
+              </div>
+              
+              <p class="trip-description">
+                <%= trip.description || 'ไม่มีคำอธิบายทริป' %>
+              </p>
+              
+              <div class="trip-actions">
+                <a href="<%= baseUrl %>trips/<%= trip.id %>" class="btn btn-primary">
+                  <i class="fas fa-eye"></i> ดูรายละเอียด
+                </a>
+                <a href="<%= baseUrl %>trips/<%= trip.id %>/edit" class="btn btn-outline">
+                  <i class="fas fa-edit"></i> แก้ไข
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+  
+  <% if (sharedTrips.length > 0) { %>
+    <h2 class="mb-3 mt-4">ทริปที่แชร์กับฉัน</h2>
+    
+    <div class="row">
+      <% sharedTrips.forEach(function(trip) { %>
+        <div class="col-4 mb-4">
+          <div class="card trip-card">
+            <div class="trip-card-header">
+              <img src="<%= baseUrl %>images/trip-placeholder.jpg" alt="<%= trip.title %>">
+              <div class="shared-badge" style="position: absolute; top: 10px; right: 10px; background: rgba(92, 184, 92, 0.9); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">
+                <% if (trip.permission === 'edit') { %>
+                  <i class="fas fa-edit"></i> แชร์แบบแก้ไขได้
+                <% } else { %>
+                  <i class="fas fa-eye"></i> แชร์แบบดูอย่างเดียว
+                <% } %>
+              </div>
+            </div>
+            <div class="trip-card-body card-body">
+              <h3 class="trip-title"><%= trip.title %></h3>
+              
+              <div class="trip-meta">
+                <span><i class="fas fa-calendar-alt"></i> <%= trip.days %> วัน</span>
+                <% if (trip.start_date) { %>
+                  <span><i class="fas fa-clock"></i> <%= moment(trip.start_date).format('D MMM YYYY') %></span>
+                <% } %>
+              </div>
+              
+              <p class="trip-description">
+                <%= trip.description || 'ไม่มีคำอธิบายทริป' %>
+              </p>
+              
+              <div class="trip-actions">
+                <a href="<%= baseUrl %>trips/<%= trip.id %>" class="btn btn-primary">
+                  <i class="fas fa-eye"></i> ดูรายละเอียด
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+<% } %>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,131 @@
+/* Responsive styles for MixTrip */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 767px) {
+  /* Typography */
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+  
+  /* Header */
+  .main-nav {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .header-content {
+    position: relative;
+  }
+  
+  .user-menu .btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .user-menu .btn-outline {
+    display: none;
+  }
+  
+  /* Grid */
+  .col-6, .col-4, .col-3 {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Trip info */
+  .trip-info {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Day header */
+  .day-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .day-date {
+    margin-top: 0.5rem;
+  }
+  
+  /* Footer */
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-logo {
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-nav {
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-nav-list {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Hero section */
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+  }
+  
+  .hero-image {
+    display: none;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Header */
+  .main-nav {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  /* Grid */
+  .col-3 {
+    width: 50%;
+  }
+  
+  /* Hero */
+  .hero-image {
+    width: 40%;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .mobile-menu-toggle {
+    display: none;
+  }
+  
+  .mobile-menu {
+    display: none;
+  }
+}

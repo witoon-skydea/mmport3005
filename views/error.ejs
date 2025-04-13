@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<div class="error-container" style="max-width: 700px; margin: 2rem auto; text-align: center;">
+  <div class="error-icon" style="font-size: 5rem; color: #dc3545; margin-bottom: 1.5rem;">
+    <i class="fas fa-exclamation-circle"></i>
+  </div>
+  
+  <h1 class="error-title"><%= error.status || 500 %></h1>
+  
+  <div class="error-message" style="margin-bottom: 2rem;">
+    <h2><%= message %></h2>
+    <% if (process.env.NODE_ENV !== 'production' && error.stack) { %>
+      <pre style="text-align: left; background: #f8f9fa; padding: 1rem; border-radius: 4px; overflow: auto; margin-top: 1rem;"><%= error.stack %></pre>
+    <% } %>
+  </div>
+  
+  <a href="<%= baseUrl %>" class="btn btn-primary">กลับไปหน้าหลัก</a>
+</div>
+
+<%- include('partials/footer') %>

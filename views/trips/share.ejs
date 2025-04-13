@@ -1,0 +1,89 @@
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <h1>แชร์ทริป: <%= trip.title %></h1>
+</div>
+
+<div class="share-info">
+  <h3>ลิงก์แชร์</h3>
+  <p>คัดลอกลิงก์ด้านล่างเพื่อแชร์ทริปนี้กับเพื่อนของคุณโดยไม่จำเป็นต้องมีบัญชีในระบบ</p>
+  
+  <div class="share-link">
+    <input type="text" class="share-url" value="<%= shareUrl %>" readonly>
+    <button class="copy-btn">คัดลอก</button>
+  </div>
+  
+  <div class="mt-4">
+    <p>หรือแชร์ทริปกับผู้ใช้งานในระบบ โดยกรอกชื่อผู้ใช้ด้านล่าง</p>
+    
+    <form action="<%= baseUrl %>trips/<%= trip.id %>/share" method="POST">
+      <div class="row align-center">
+        <div class="col-6">
+          <div class="form-group mb-0">
+            <label for="username" class="form-label">ชื่อผู้ใช้</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+          </div>
+        </div>
+        
+        <div class="col-4">
+          <div class="form-group mb-0">
+            <label for="permission" class="form-label">สิทธิ์การเข้าถึง</label>
+            <select id="permission" name="permission" class="form-control">
+              <option value="view">ดูอย่างเดียว</option>
+              <option value="edit">แก้ไขได้</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="col-2">
+          <div class="form-group" style="margin-top: 32px;">
+            <button type="submit" class="btn btn-primary btn-block">แชร์</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<% if (sharedUsers.length > 0) { %>
+  <div class="shared-users">
+    <h3>ผู้ใช้ที่แชร์ด้วย</h3>
+    
+    <div class="card">
+      <div class="card-body p-0">
+        <% sharedUsers.forEach(function(user) { %>
+          <div class="user-item">
+            <div class="user-info">
+              <div class="user-avatar">
+                <%= user.username.charAt(0).toUpperCase() %>
+              </div>
+              <div class="user-details">
+                <div class="user-name">
+                  <%= user.username %>
+                  <span class="permission-badge">
+                    <%= user.permission === 'edit' ? 'แก้ไขได้' : 'ดูอย่างเดียว' %>
+                  </span>
+                </div>
+                <div class="user-email"><%= user.email %></div>
+              </div>
+            </div>
+            
+            <form action="<%= baseUrl %>trips/<%= trip.id %>/share/<%= user.id %>/remove" method="POST" onsubmit="return confirm('คุณแน่ใจหรือไม่ที่จะยกเลิกการแชร์ทริปกับผู้ใช้นี้?')">
+              <button type="submit" class="remove-share btn btn-sm">
+                <i class="fas fa-times"></i> ยกเลิกการแชร์
+              </button>
+            </form>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<div class="mt-4">
+  <a href="<%= baseUrl %>trips/<%= trip.id %>" class="btn btn-outline">
+    <i class="fas fa-arrow-left"></i> กลับไปยังรายละเอียดทริป
+  </a>
+</div>
+
+<%- include('../partials/footer') %>

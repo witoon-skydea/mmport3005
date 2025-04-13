@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - MixTrip</title>
+  <link rel="stylesheet" href="<%= baseUrl %>css/main.css">
+  <link rel="stylesheet" href="<%= baseUrl %>css/responsive.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <% if (typeof additionalStyles !== 'undefined' && additionalStyles) { %>
+    <% additionalStyles.forEach(function(style) { %>
+      <link rel="stylesheet" href="<%= baseUrl %><%= style %>">
+    <% }); %>
+  <% } %>
+</head>
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <a href="<%= baseUrl %>" class="logo">
+          <span class="logo-text">MixTrip</span>
+          <span class="logo-icon"><i class="fas fa-map-marked-alt"></i></span>
+        </a>
+        
+        <nav class="main-nav">
+          <ul class="nav-list">
+            <% if (locals.isAuthenticated) { %>
+              <li class="nav-item"><a href="<%= baseUrl %>trips" class="nav-link">ทริปของฉัน</a></li>
+              <li class="nav-item"><a href="<%= baseUrl %>places" class="nav-link">สถานที่ท่องเที่ยว</a></li>
+            <% } %>
+          </ul>
+        </nav>
+        
+        <div class="user-menu">
+          <% if (locals.isAuthenticated) { %>
+            <div class="dropdown">
+              <button class="dropdown-toggle">
+                <span class="user-name"><%= locals.user ? locals.user.username : 'User' %></span>
+                <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a href="<%= baseUrl %>trips" class="dropdown-item">ทริปของฉัน</a>
+                <a href="<%= baseUrl %>trips/new" class="dropdown-item">สร้างทริปใหม่</a>
+                <a href="<%= baseUrl %>places" class="dropdown-item">สถานที่ท่องเที่ยว</a>
+                <div class="dropdown-divider"></div>
+                <a href="<%= baseUrl %>logout" class="dropdown-item">ออกจากระบบ</a>
+              </div>
+            </div>
+          <% } else { %>
+            <a href="<%= baseUrl %>login" class="btn btn-primary">เข้าสู่ระบบ</a>
+            <a href="<%= baseUrl %>register" class="btn btn-outline">สมัครสมาชิก</a>
+          <% } %>
+        </div>
+        
+        <button class="mobile-menu-toggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <div class="mobile-menu">
+    <ul class="mobile-nav-list">
+      <% if (locals.isAuthenticated) { %>
+        <li class="mobile-nav-item"><a href="<%= baseUrl %>trips" class="mobile-nav-link">ทริปของฉัน</a></li>
+        <li class="mobile-nav-item"><a href="<%= baseUrl %>trips/new" class="mobile-nav-link">สร้างทริปใหม่</a></li>
+        <li class="mobile-nav-item"><a href="<%= baseUrl %>places" class="mobile-nav-link">สถานที่ท่องเที่ยว</a></li>
+        <li class="mobile-nav-item"><a href="<%= baseUrl %>logout" class="mobile-nav-link">ออกจากระบบ</a></li>
+      <% } else { %>
+        <li class="mobile-nav-item"><a href="<%= baseUrl %>login" class="mobile-nav-link">เข้าสู่ระบบ</a></li>
+        <li class="mobile-nav-item"><a href="<%= baseUrl %>register" class="mobile-nav-link">สมัครสมาชิก</a></li>
+      <% } %>
+    </ul>
+  </div>
+  
+  <main class="main-content">
+    <div class="container">
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger">
+          <i class="fas fa-exclamation-circle"></i> <%= error %>
+        </div>
+      <% } %>
+      
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success">
+          <i class="fas fa-check-circle"></i> <%= success %>
+        </div>
+      <% } %>

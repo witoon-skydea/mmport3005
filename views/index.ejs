@@ -1,0 +1,63 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">วางแผนทริปท่องเที่ยวของคุณได้ง่ายๆ</h1>
+      <p class="hero-subtitle">MixTrip ช่วยให้คุณจัดการทริปท่องเที่ยว วางแผนกิจกรรมในแต่ละวัน และแชร์ให้เพื่อนของคุณได้อย่างง่ายดาย</p>
+      <div class="hero-actions">
+        <a href="<%= baseUrl %>register" class="btn btn-secondary btn-lg">สร้างบัญชีใหม่</a>
+        <a href="<%= baseUrl %>login" class="btn btn-outline btn-lg">เข้าสู่ระบบ</a>
+      </div>
+    </div>
+    <div class="hero-image"></div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">ฟีเจอร์เด่น</h2>
+    
+    <div class="row">
+      <div class="col-4">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-route"></i>
+          </div>
+          <h3 class="feature-title">วางแผนทริปหลายวัน</h3>
+          <p class="feature-description">กำหนดจำนวนวันเดินทาง สถานที่ และกิจกรรมได้อย่างอิสระ ปรับเปลี่ยนได้ตลอดเวลา</p>
+        </div>
+      </div>
+      
+      <div class="col-4">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <h3 class="feature-title">จัดการสถานที่ท่องเที่ยว</h3>
+          <p class="feature-description">ค้นหาและเลือกสถานที่ท่องเที่ยวที่น่าสนใจ พร้อมบันทึกรายละเอียดและตำแหน่งที่ตั้ง</p>
+        </div>
+      </div>
+      
+      <div class="col-4">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-share-alt"></i>
+          </div>
+          <h3 class="feature-title">แชร์กับเพื่อน</h3>
+          <p class="feature-description">แชร์ทริปให้กับเพื่อนหรือครอบครัวเพื่อดูรายละเอียดหรือร่วมวางแผนไปด้วยกัน</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" style="background-color: #f0f5ff; padding: 4rem 0; text-align: center;">
+  <div class="container">
+    <h2 class="mb-3">เริ่มวางแผนทริปของคุณตอนนี้!</h2>
+    <p class="mb-4">สมัครสมาชิกฟรี ไม่มีค่าใช้จ่าย เริ่มต้นวางแผนการเดินทางของคุณได้ทันที</p>
+    <a href="<%= baseUrl %>register" class="btn btn-primary btn-lg">สมัครสมาชิกฟรี</a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

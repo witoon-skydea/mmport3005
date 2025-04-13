@@ -1,0 +1,87 @@
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <h1>สร้างทริปใหม่</h1>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <form action="<%= baseUrl %>trips" method="POST">
+      <div class="form-group">
+        <label for="title" class="form-label">ชื่อทริป *</label>
+        <input type="text" id="title" name="title" class="form-control" required value="<%= typeof formData !== 'undefined' ? formData.title || '' : '' %>">
+        <small class="form-text">เช่น "เที่ยวเชียงใหม่ 3 วัน 2 คืน", "ทริปพาแม่เที่ยวภูเก็ต"</small>
+      </div>
+      
+      <div class="form-group">
+        <label for="description" class="form-label">คำอธิบายทริป</label>
+        <textarea id="description" name="description" class="form-control" rows="3"><%= typeof formData !== 'undefined' ? formData.description || '' : '' %></textarea>
+      </div>
+      
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="days" class="form-label">จำนวนวัน *</label>
+            <input type="number" id="days" name="days" class="form-control" min="1" max="30" required value="<%= typeof formData !== 'undefined' ? formData.days || 1 : 1 %>">
+          </div>
+        </div>
+        
+        <div class="col-4">
+          <div class="form-group">
+            <label for="start_date" class="form-label">วันที่เริ่มต้น</label>
+            <input type="date" id="start_date" name="start_date" class="form-control" value="<%= typeof formData !== 'undefined' ? formData.start_date || '' : '' %>">
+          </div>
+        </div>
+        
+        <div class="col-4">
+          <div class="form-group">
+            <label for="end_date" class="form-label">วันที่สิ้นสุด</label>
+            <input type="date" id="end_date" name="end_date" class="form-control" value="<%= typeof formData !== 'undefined' ? formData.end_date || '' : '' %>">
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="form-check">
+          <input type="checkbox" id="is_public" name="is_public" class="form-check-input" <%= typeof formData !== 'undefined' && formData.is_public ? 'checked' : '' %>>
+          <label for="is_public" class="form-check-label">เป็นทริปสาธารณะ (ทุกคนสามารถเข้าชมได้)</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">สร้างทริป</button>
+        <a href="<%= baseUrl %>trips" class="btn btn-outline">ยกเลิก</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Automatically calculate end date based on start date and days
+  document.addEventListener('DOMContentLoaded', function() {
+    const daysInput = document.getElementById('days');
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    
+    function updateEndDate() {
+      const startDate = startDateInput.value;
+      const days = parseInt(daysInput.value, 10);
+      
+      if (startDate && days) {
+        const date = new Date(startDate);
+        date.setDate(date.getDate() + days - 1);
+        
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        
+        endDateInput.value = `${yyyy}-${mm}-${dd}`;
+      }
+    }
+    
+    daysInput.addEventListener('change', updateEndDate);
+    startDateInput.addEventListener('change', updateEndDate);
+  });
+</script>
+
+<%- include('../partials/footer') %>

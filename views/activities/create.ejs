@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <h1>เพิ่มกิจกรรมใหม่</h1>
+  <p>สำหรับทริป: <%= trip.title %> - <%= day.day_title %></p>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <form action="<%= baseUrl %>trips/<%= trip.id %>/days/<%= day.id %>/activities" method="POST">
+      <div class="form-group">
+        <label for="title" class="form-label">ชื่อกิจกรรม *</label>
+        <input type="text" id="title" name="title" class="form-control" required value="<%= typeof formData !== 'undefined' ? formData.title || '' : '' %>">
+        <small class="form-text">เช่น "เยี่ยมชมวัดพระธาตุดอยสุเทพ", "ช้อปปิ้งที่ไนท์บาซาร์"</small>
+      </div>
+      
+      <div class="form-group">
+        <label for="place_id" class="form-label">สถานที่</label>
+        <select id="place_id" name="place_id" class="form-control">
+          <option value="">-- เลือกสถานที่ (ไม่บังคับ) --</option>
+          <% places.forEach(function(place) { %>
+            <option value="<%= place.id %>" <%= typeof formData !== 'undefined' && formData.place_id == place.id ? 'selected' : '' %>>
+              <%= place.name %>
+            </option>
+          <% }); %>
+        </select>
+        <small class="form-text">เลือกสถานที่ท่องเที่ยวจากรายการ หรือเว้นว่างไว้หากไม่ต้องการระบุ</small>
+      </div>
+      
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="start_time" class="form-label">เวลาเริ่มต้น</label>
+            <input type="time" id="start_time" name="start_time" class="form-control" value="<%= typeof formData !== 'undefined' ? formData.start_time || '' : '' %>">
+          </div>
+        </div>
+        
+        <div class="col-6">
+          <div class="form-group">
+            <label for="end_time" class="form-label">เวลาสิ้นสุด</label>
+            <input type="time" id="end_time" name="end_time" class="form-control" value="<%= typeof formData !== 'undefined' ? formData.end_time || '' : '' %>">
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="notes" class="form-label">บันทึกเพิ่มเติม</label>
+        <textarea id="notes" name="notes" class="form-control" rows="3"><%= typeof formData !== 'undefined' ? formData.notes || '' : '' %></textarea>
+        <small class="form-text">เขียนรายละเอียดเพิ่มเติมเกี่ยวกับกิจกรรม เช่น สิ่งที่ต้องเตรียม, ค่าใช้จ่าย</small>
+      </div>
+      
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">บันทึกกิจกรรม</button>
+        <a href="<%= baseUrl %>trips/<%= trip.id %>" class="btn btn-outline">ยกเลิก</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,194 @@
+<%- include('../partials/header') %>
+
+<div class="page-header d-flex justify-between align-center mb-4">
+  <h1><%= trip.title %></h1>
+  
+  <div class="trip-actions">
+    <% if (trip.user_id === user.id) { %>
+      <a href="<%= baseUrl %>trips/<%= trip.id %>/share" class="btn btn-secondary">
+        <i class="fas fa-share-alt"></i> แชร์ทริป
+      </a>
+      <a href="<%= baseUrl %>trips/<%= trip.id %>/edit" class="btn btn-outline">
+        <i class="fas fa-edit"></i> แก้ไขทริป
+      </a>
+    <% } %>
+  </div>
+</div>
+
+<div class="trip-header">
+  <p class="trip-description"><%= trip.description || 'ไม่มีคำอธิบายทริป' %></p>
+  
+  <div class="trip-info mt-3">
+    <div class="trip-info-item">
+      <i class="fas fa-calendar-alt"></i>
+      <span><%= trip.days %> วัน</span>
+    </div>
+    
+    <% if (trip.start_date) { %>
+      <div class="trip-info-item">
+        <i class="fas fa-calendar-check"></i>
+        <span><%= moment(trip.start_date).format('D MMM YYYY') %> - <%= moment(trip.end_date).format('D MMM YYYY') %></span>
+      </div>
+    <% } %>
+    
+    <div class="trip-info-item">
+      <i class="fas fa-user"></i>
+      <span>สร้างโดย <%= owner.username %></span>
+    </div>
+    
+    <div class="trip-info-item">
+      <i class="fas fa-globe"></i>
+      <span><%= trip.is_public ? 'ทริปสาธารณะ' : 'ทริปส่วนตัว' %></span>
+    </div>
+  </div>
+</div>
+
+<div class="trip-days">
+  <% days.forEach(function(day) { %>
+    <div class="day-card">
+      <div class="day-header">
+        <div>
+          <h2 class="day-title"><%= day.day_title %></h2>
+          <% if (day.date) { %>
+            <span class="day-date"><i class="far fa-calendar-alt"></i> <%= moment(day.date).format('D MMMM YYYY') %></span>
+          <% } %>
+        </div>
+        
+        <% if (canEdit) { %>
+          <div>
+            <a href="<%= baseUrl %>trips/<%= trip.id %>/days/<%= day.id %>/edit" class="btn btn-sm btn-outline">
+              <i class="fas fa-edit"></i> แก้ไขข้อมูลวัน
+            </a>
+          </div>
+        <% } %>
+      </div>
+      
+      <div class="day-body">
+        <% if (day.notes) { %>
+          <div class="day-notes">
+            <p><strong><i class="fas fa-sticky-note"></i> บันทึก:</strong> <%= day.notes %></p>
+          </div>
+        <% } %>
+        
+        <% const activities = activityMap[day.id] || []; %>
+        
+        <% if (activities.length > 0) { %>
+          <h3 class="mb-3">กิจกรรม</h3>
+          
+          <ul class="activity-list" id="activity-list-<%= day.id %>" data-day-id="<%= day.id %>">
+            <% activities.forEach(function(activity) { %>
+              <li class="activity-item" data-activity-id="<%= activity.id %>">
+                <div class="activity-header">
+                  <h4 class="activity-title"><%= activity.title %></h4>
+                  
+                  <div class="activity-time">
+                    <% if (activity.start_time) { %>
+                      <%= activity.start_time %><% if (activity.end_time) { %> - <%= activity.end_time %><% } %>
+                    <% } %>
+                  </div>
+                </div>
+                
+                <% if (activity.place_name) { %>
+                  <div class="activity-place">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span><%= activity.place_name %></span>
+                  </div>
+                <% } %>
+                
+                <% if (activity.notes) { %>
+                  <div class="activity-notes">
+                    <%= activity.notes %>
+                  </div>
+                <% } %>
+                
+                <% if (canEdit) { %>
+                  <div class="activity-actions" style="margin-top: 10px;">
+                    <a href="<%= baseUrl %>trips/<%= trip.id %>/activities/<%= activity.id %>/edit" class="btn btn-sm btn-outline">
+                      <i class="fas fa-edit"></i> แก้ไข
+                    </a>
+                    
+                    <form action="<%= baseUrl %>trips/<%= trip.id %>/activities/<%= activity.id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('คุณแน่ใจหรือไม่ที่จะลบกิจกรรมนี้?')">
+                      <button type="submit" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i> ลบ
+                      </button>
+                    </form>
+                  </div>
+                <% } %>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <div class="empty-activities" style="text-align: center; padding: 2rem 0;">
+            <p>ยังไม่มีกิจกรรมในวันนี้</p>
+          </div>
+        <% } %>
+        
+        <% if (canEdit) { %>
+          <div class="add-activity">
+            <a href="<%= baseUrl %>trips/<%= trip.id %>/days/<%= day.id %>/activities/new" class="btn btn-primary">
+              <i class="fas fa-plus"></i> เพิ่มกิจกรรม
+            </a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  <% }); %>
+</div>
+
+<div class="trip-actions text-center mt-4 mb-4">
+  <a href="<%= baseUrl %>trips" class="btn btn-outline">
+    <i class="fas fa-arrow-left"></i> กลับไปยังรายการทริป
+  </a>
+  
+  <% if (trip.user_id === user.id) { %>
+    <form action="<%= baseUrl %>trips/<%= trip.id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('คุณแน่ใจหรือไม่ที่จะลบทริปนี้? การกระทำนี้ไม่สามารถย้อนกลับได้')">
+      <button type="submit" class="btn btn-danger">
+        <i class="fas fa-trash"></i> ลบทริป
+      </button>
+    </form>
+  <% } %>
+</div>
+
+<% if (canEdit) { %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Make activity lists sortable (if a draggable library is included)
+    if (typeof Sortable !== 'undefined') {
+      document.querySelectorAll('.activity-list').forEach(function(list) {
+        const dayId = list.dataset.dayId;
+        
+        Sortable.create(list, {
+          animation: 150,
+          onEnd: function(evt) {
+            // Get the new order of activity IDs
+            const activityIds = Array.from(list.querySelectorAll('.activity-item')).map(item => item.dataset.activityId);
+            
+            // Save the new order via AJAX
+            fetch('/trips/api/activities/reorder', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                dayId: dayId,
+                activityIds: activityIds
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (!data.success) {
+                console.error('Error reordering activities:', data.error);
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+          }
+        });
+      });
+    }
+  });
+</script>
+<% } %>
+
+<%- include('../partials/footer') %>
